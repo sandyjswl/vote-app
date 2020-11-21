@@ -1,5 +1,4 @@
 from flask import Flask,request, jsonify
-import redis
 import os
 import json
 import operator
@@ -8,10 +7,7 @@ import ctypes
 app = Flask(__name__)
 
 
-candidates = redis.Redis(
-host=os.getenv("REDIS_HOST"),
-port=int(os.getenv("REDIS_PORT")),
-charset="utf-8", decode_responses=True)
+candidates = {}
 
 @app.route('/')
 def hello_world():
@@ -27,7 +23,7 @@ def check():
 def vote(candidate):
     current_candidate = candidates.get(candidate.upper())
     if current_candidate is not None:
-        candidates.set(candidate.upper(), int(candidates.get(candidate.upper())) + 1 )
+        candidates[candidate.upper()]  = int(candidates.get(candidate.upper())) + 1 
         return jsonify(success=True)
     return jsonify(success=False)
 
@@ -35,20 +31,20 @@ def vote(candidate):
 def register():
     try:
         data =request.get_json()
-        candidates.set(data['name'].upper(),0)
+        candidates[data['name'].upper()] =0
         return jsonify(success=True)
     except:
         return jsonify(success=False)
 
 @app.route('/candidates', methods = ['GET'])
 def get_candidates():
-    keys = candidates.keys('*')
-    return jsonify(keys)
+    # keys = candidates.keys('*')
+    return jsonify(list(candidates.keys()))
 
 @app.route('/winner', methods = ['GET'])
 def get_winner():
     candidates_dict = {}
-    keys = candidates.keys('*')
+    keys = list(candidates.keys())
     for key in keys:
         val = candidates.get(key)
         candidates_dict[key] = int(val)
@@ -68,7 +64,7 @@ def get_version():
     version = os.getenv("VERSION")
     if version is not None:
         return jsonify(version)
-    return jsonify(success=False)
+    return jsonify(success=False, message= "Environment variable VERSION is not set")
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True, host='0.0.0.0')
