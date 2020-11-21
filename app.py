@@ -3,6 +3,8 @@ import redis
 import os
 import json
 import operator
+import sys
+import ctypes
 app = Flask(__name__)
 
 
@@ -25,7 +27,6 @@ def check():
 def vote(candidate):
     current_candidate = candidates.get(candidate.upper())
     if current_candidate is not None:
-        print("founf")
         candidates.set(candidate.upper(), int(candidates.get(candidate.upper())) + 1 )
         return jsonify(success=True)
     return jsonify(success=False)
@@ -57,6 +58,10 @@ def get_winner():
        
     except:
         return jsonify(success=False)
+
+@app.route('/crash', methods = ['GET'])
+def crash_app():
+    os._exit(0)
 
 @app.route('/version', methods = ['GET'])
 def get_version():
