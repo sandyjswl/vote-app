@@ -2,7 +2,7 @@
 Simple CRUD service that can be used to build demo docker images and for kubernetes demos
 
 
-There are 4 endpoints 
+There are 7 endpoints 
 
 
   1. `/health` -> Check if the application is running
