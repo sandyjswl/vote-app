@@ -1,15 +1,17 @@
 # vote-app
-Sample CRUD service used to build demo docker images and kuberneted deployments
+Simple CRUD service that can be used to build demo docker images and for kubernetes demos
 
-This is a sample crud service which i'm using to learn docker and kubernetes. 
+
 There are 4 endpoints 
 
 
-  1. /check -> returns a string `Checking In if everything is fine`
-  2. /register -> POST mapping, to regsiter a new candidate. takes as input a dictionary with one key `name`. EG: {"name":"sandeep"}
-  3. /candidates -> GET mapping, returns a list of registered candidated
+  1. /health -> Check if the application is running
+  2. /register?name -> Register a candidate, take query parameter `name`, ex - > `/register?name=sandeep`
+  3. /candidates -> Returns a list of registered candidated
   4. /vote/{candidate_name} -> votes for `candidate_name`
-  5. /winner -> retruns the candidate with most votes
+  5. /winner -> Returns the candidate with most votes
+  6. /crash -> Crashes the application
+  7. /version -> Returns the app version
   
   
  This is automatically built as a docker image. To download the docker image 
@@ -17,4 +19,3 @@ There are 4 endpoints
  docker pull sandyjswl/vote-app:latest
  ```
  
- When building docker image you have to provide two environment variables REDIS_HOST and REDIS_PORT to connect to redis. Same goes for local connections as well
