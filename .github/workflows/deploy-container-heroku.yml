@@ -13,7 +13,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,7 +27,7 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
 
-      - name: Heroku login credentials
+      - name: Heroku login 
         run: |
           cat > ~/.netrc <<EOF
             machine api.heroku.com
@@ -42,11 +42,11 @@ jobs:
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
 
 
-      - name: Docker container login
+      - name: Heroku container login
         run: heroku container:login
 
-      - name: Build to Heroku
+      - name: Build docker image
         run: heroku container:push web -a $APP_NAME
 
-      - name: Deploys to Heroku
+      - name: Deploy to heroku
         run: heroku container:release web -a $APP_NAME
