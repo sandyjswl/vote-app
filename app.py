@@ -54,12 +54,9 @@ def get_winner():
 def crash_app():
     os._exit(0)
 
-# @app.route('/version', methods = ['GET'])
-# def get_version():
-#     version = os.getenv("VERSION")
-#     if version is not None:
-#         return jsonify(version)
-#     return jsonify(success=False)
+@app.route('/version')
+def get_version():
+    return jsonify({"version":"1.0"})
 
 if __name__ == '__main__':
     portas = int(os.environ.get('PORT', 5000))
