@@ -24,6 +24,7 @@ def vote(candidate):
 
 @app.route('/register')
 def register():
+    
     try:
         candidates[request.args.get('name').upper()] = 0
         return jsonify(success=True)
