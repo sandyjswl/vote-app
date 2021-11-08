@@ -15,7 +15,10 @@ There are 4 endpoints
   
   
  This is automatically built as a docker image. To download the docker image 
- ```
+ ```bash
  docker pull sandyjswl/vote-app:latest
  ```
  
+ ```bash
+ docker run -d -p 5000:5000 sandyjswl/vote-app:latest
+ ```
